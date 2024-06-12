@@ -33,8 +33,14 @@ server/tcpserver.cpp)
 
 include_directories(common stuncore networkutils testcode client server resources) 
 
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+find_package(OpenSSL REQUIRED)
+
 add_executable(stunserver ${common_SRC} ${stuncore_SRC} ${networkutils_SRC} ${server_SRC} )
+target_link_libraries(stunserver OpenSSL::Crypto)
+
 add_executable(stunclient ${common_SRC} ${stuncore_SRC} ${networkutils_SRC} ${client_SRC} )
+target_link_libraries(stunclient OpenSSL::Crypto)
 
-
-
+add_executable(stuntest ${common_SRC} ${stuncore_SRC} ${networkutils_SRC} ${testcode_SRC} )
+target_link_libraries(stuntest OpenSSL::Crypto)

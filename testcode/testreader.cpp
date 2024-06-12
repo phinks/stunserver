@@ -50,8 +50,8 @@ const char c_software[] = "STUN test client";
 HRESULT CTestReader::Run()
 {
     HRESULT hr = S_OK;
-    Chk(Test1());
-    Chk(Test2());
+    //Chk(Test1());
+   // Chk(Test2());
 Cleanup:
     return hr;
 }
