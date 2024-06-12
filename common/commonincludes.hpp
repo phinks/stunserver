@@ -52,6 +52,7 @@
 #include <vector>
 #include <list>
 #include <string>
+#include <memory>
 
 
 #ifdef IS_LINUX
