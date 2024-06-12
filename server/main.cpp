@@ -16,8 +16,8 @@
 
 #include "commonincludes.hpp"
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+//#include <boost/property_tree/ptree.hpp>
+//#include <boost/property_tree/json_parser.hpp>
 
 #include "stuncore.h"
 #include "server.h"
@@ -38,7 +38,7 @@
 #include "resolvehostname.h"
 
 
-using namespace boost::property_tree;
+//using namespace boost::property_tree;
 
 
 void PrintUsage(bool fSummaryUsage)
@@ -62,7 +62,7 @@ char* strerror_helper(int result, char* msg, int err)
 {
     if (result != 0)
     {
-        sprintf(msg, "Unknown error %d", err);
+        snprintf(msg, 400, "Unknown error %d", err);
     }
     return msg;
 }
@@ -548,7 +548,7 @@ HRESULT ParseCommandLineArgs(int argc, char** argv, int startindex, StartupArgs*
     return fError ? E_INVALIDARG : S_OK;
 }
 
-
+#if 0
 HRESULT LoadConfigsFromFile(const std::string& filename, std::vector<StartupArgs>& configurations)
 {
     ptree tree;
@@ -622,6 +622,7 @@ HRESULT LoadConfigsFromFile(const std::string& filename, std::vector<StartupArgs
     
     return S_OK;
 }
+#endif
     
 HRESULT BlockSignal(int sig)
 {
@@ -769,7 +770,7 @@ int main(int argc, char** argv)
             Logging::SetLogLevel((uint32_t)loglevel);
         }
     }
-    
+    /*
     if (args.strConfigFile.empty() == false)
     {
         hr = LoadConfigsFromFile(args.strConfigFile, argsVector);
@@ -780,6 +781,7 @@ int main(int argc, char** argv)
         }
     }
     else
+    */
     {
         argsVector.push_back(args);
     }

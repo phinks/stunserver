@@ -22,7 +22,6 @@
 #include "atomichelpers.h"
 
 #include "stunbuilder.h"
-#include <boost/crc.hpp>
 
 #ifndef __APPLE__
 #include <openssl/md5.h>
@@ -32,6 +31,8 @@
 #include <CommonCrypto/CommonCrypto.h>
 #endif
 
+
+#include "crc.hpp"
 
 #include "stunauth.h"
 
@@ -419,8 +420,7 @@ HRESULT CStunMessageBuilder::AddChangeRequest(const StunChangeRequestAttribute& 
 
 HRESULT CStunMessageBuilder::AddFingerprintAttribute()
 {
-    boost::crc_32_type result;
-    uint32_t value;
+    uint32_t value = 0xFFFFFFFF;;
     CRefCountedBuffer spBuffer;
     void* pData = NULL;
     size_t length = 0;
@@ -442,9 +442,10 @@ HRESULT CStunMessageBuilder::AddFingerprintAttribute()
 
     ASSERT(length > 8);
     length = length-8;
-    result.process_bytes(pData, length);
+    value = CRC::crc32<CRC::IEEE8023_CRC32_POLYNOMIAL>(value, (std::uint8_t*)pData, (std::uint8_t*)pData + length);
+    //result.process_bytes(pData, length);
 
-    value = result.checksum();
+    //value = result.checksum();
     value = value ^ STUN_FINGERPRINT_XOR;
 
     offset = -(int)(sizeof(value));

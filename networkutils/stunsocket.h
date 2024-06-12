@@ -69,7 +69,7 @@ public:
     HRESULT TCPInit(const CSocketAddress& local, SocketRole role, bool fSetReuseFlag);
 };
 
-typedef boost::shared_ptr<CStunSocket> CRefCountedStunSocket;
+typedef std::shared_ptr<CStunSocket> CRefCountedStunSocket;
 
 
 

@@ -21,7 +21,9 @@
 #include "stunreader.h"
 #include "stunutils.h"
 #include "socketaddress.h"
-#include <boost/crc.hpp>
+//#include <boost/crc.hpp>
+#include "stunauth.h"
+#include "crc.hpp"
 
 #ifndef __APPLE__
 #include <openssl/evp.h>
@@ -102,8 +104,8 @@ bool CStunMessageReader::IsFingerprintAttributeValid()
     StunAttribute* pAttrib = _mapAttributes.Lookup(STUN_ATTRIBUTE_FINGERPRINT);
     CRefCountedBuffer spBuffer;
     size_t size=0;
-    boost::crc_32_type crc;
-    uint32_t computedValue=1;
+    //boost::crc_32_type crc;
+    uint32_t computedValue=0xFFFFFFFF;
     uint32_t readValue=0;
     uint8_t* ptr = NULL;
 
@@ -125,8 +127,10 @@ bool CStunMessageReader::IsFingerprintAttributeValid()
     ptr = spBuffer->GetData();
     ChkIfA(ptr==NULL, E_FAIL);
 
-    crc.process_bytes(ptr, size-8); // -8 because we're assuming the fingerprint attribute is 8 bytes and is the last attribute in the stream
-    computedValue = crc.checksum();
+
+    //crc.process_bytes(ptr, size-8); // -8 because we're assuming the fingerprint attribute is 8 bytes and is the last attribute in the stream
+    computedValue = CRC::crc32<CRC::IEEE8023_CRC32_POLYNOMIAL>(computedValue, (std::uint8_t*)ptr, (std::uint8_t*)(ptr + size - 8));
+
     computedValue = computedValue ^ STUN_FINGERPRINT_XOR;
 
     readValue = *(uint32_t*)(ptr+pAttrib->offset);

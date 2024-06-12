@@ -48,10 +48,6 @@
 #include <math.h>
 #include <sys/termios.h>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/scoped_array.hpp>
-#include <boost/scoped_ptr.hpp>
-
 #include <map>
 #include <vector>
 #include <list>
@@ -68,11 +64,16 @@
 
 #include <pthread.h>
 
+#if !defined(DEBUG) && !defined(NDEBUG)
+# define NDEBUG
+#endif
 
 #if !defined(DEBUG) && !defined(NDEBUG)
 You_Didnt_Define_DEBUG_Or_NDEBUG g_compilererror[-1];
 #endif
 
+#include <assert.h>
+#define BOOST_ASSERT(x) assert(x)
 
 #if defined(DEBUG)
 
@@ -87,7 +88,6 @@ You_Didnt_Define_DEBUG_Or_NDEBUG g_compilererror[-1];
 #endif
 
 #endif
-#include <boost/assert.hpp>
 
 #ifdef ASSERT
 #undef ASSERT

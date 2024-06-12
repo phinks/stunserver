@@ -321,7 +321,7 @@ HRESULT CSocketAddress::ToStringBuffer(char* pszAddrBytes, size_t length) const
 
     ChkIf(pszResult == NULL, ERRNOHR);
 
-    sprintf(szPort, "%c%d", delimiter, GetPort());
+    snprintf(szPort, portLength, "%c%d", delimiter, GetPort());
 #if DEBUG
     ChkIfA(strlen(szPort) > portLength, E_FAIL);
 #endif

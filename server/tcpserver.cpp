@@ -228,7 +228,7 @@ CStunSocket* CTCPStunThread::GetListenSocket(int sock)
 
 
 
-HRESULT CTCPStunThread::Init(const TransportAddressSet& tsaListen, const TransportAddressSet& tsaHandler, IStunAuth* pAuth, int maxConnections, boost::shared_ptr<RateLimiter>& spLimiter)
+HRESULT CTCPStunThread::Init(const TransportAddressSet& tsaListen, const TransportAddressSet& tsaHandler, IStunAuth* pAuth, int maxConnections, std::shared_ptr<RateLimiter>& spLimiter)
 {
     HRESULT hr = S_OK;
     int ret;
@@ -833,7 +833,7 @@ HRESULT CTCPServer::Initialize(const CStunServerConfig& config)
     HRESULT hr = S_OK;
     TransportAddressSet tsaListenAll;
     TransportAddressSet tsaHandler;
-    boost::shared_ptr<RateLimiter> spLimiter;
+    std::shared_ptr<RateLimiter> spLimiter;
     
     ChkIfA(_threads[0] != NULL, E_UNEXPECTED); // we can't already be initialized, right?
     
@@ -856,7 +856,7 @@ HRESULT CTCPServer::Initialize(const CStunServerConfig& config)
     
     if (config.fEnableDosProtection)
     {
-        spLimiter = boost::shared_ptr<RateLimiter>(new RateLimiter(20000, config.fMultiThreadedMode));
+        spLimiter = std::shared_ptr<RateLimiter>(new RateLimiter(20000, config.fMultiThreadedMode));
     }
     
     if (config.fMultiThreadedMode == false)

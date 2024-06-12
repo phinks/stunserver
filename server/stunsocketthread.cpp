@@ -47,7 +47,7 @@ void CStunSocketThread::ClearSocketArray()
     _socks.clear();
 }
 
-HRESULT CStunSocketThread::Init(CStunSocket* arrayOfFourSockets, TransportAddressSet* pTSA, IStunAuth* pAuth, SocketRole rolePrimaryRecv, boost::shared_ptr<RateLimiter>& spLimiter)
+HRESULT CStunSocketThread::Init(CStunSocket* arrayOfFourSockets, TransportAddressSet* pTSA, IStunAuth* pAuth, SocketRole rolePrimaryRecv, std::shared_ptr<RateLimiter>& spLimiter)
 {
     HRESULT hr = S_OK;
     
